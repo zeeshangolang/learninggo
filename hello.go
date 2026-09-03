@@ -4,18 +4,20 @@ import (
 	"fmt"
 )
 
+type FuncOpts struct {
+	Name string
+	age  int
+}
+
+func FFUnc(funcopts FuncOpts) {
+	fmt.Print(funcopts.Name, funcopts.age)
+}
+
 func main() {
 
-	samples := []string{"hello", "apple_π!"}
-outer:
-	for _, sample := range samples {
-		for i, r := range sample {
-			fmt.Println(i, r, string(r))
-			if r == 'e' {
-				continue outer
-			}
-		}
-		fmt.Println()
-	}
+	FFUnc(FuncOpts{
+		Name: "zeeshan",
+		age:  21,
+	})
 
 }
