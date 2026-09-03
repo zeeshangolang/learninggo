@@ -6,9 +6,16 @@ import (
 
 func main() {
 
-	evenVals := []int{2, 4, 6, 8, 10, 12}
-	for i := range evenVals {
-		evenVals[i] = 1
+	samples := []string{"hello", "apple_π!"}
+outer:
+	for _, sample := range samples {
+		for i, r := range sample {
+			fmt.Println(i, r, string(r))
+			if r == 'e' {
+				continue outer
+			}
+		}
+		fmt.Println()
 	}
-	fmt.Println(evenVals)
+
 }
