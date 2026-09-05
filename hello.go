@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"strconv"
 )
 
 var opmap = map[string]func(int, int) int{
@@ -15,42 +14,12 @@ var opmap = map[string]func(int, int) int{
 
 func main() {
 
-	expressions := [][]string{
-		{"2", "+", "3"},
-		{"2", "-", "3"},
-		{"2", "*", "3"},
-		{"2", "/", "3"},
-		{"2", "%", "3"},
-		{"two", "+", "three"},
-		{"5"},
+	jprint := func(j int) {
+		fmt.Printf("printing j from inside %d \n", j)
 	}
 
-	for _, expression := range expressions {
-		if len(expression) != 3 {
-			fmt.Print("Invaild expression", expression)
-			continue
-		}
-		p1, err := strconv.Atoi(expression[0])
-		if err != nil {
-			fmt.Print("error on p1")
-			continue
-		}
-		operation := expression[1]
-		opFunc, ok := opmap[operation]
-		if !ok {
-			fmt.Print("unsupported operation")
-			continue
-		}
-
-		p2, err := strconv.Atoi(expression[2])
-		if err != nil {
-			fmt.Print(err)
-			continue
-		}
-
-		result := opFunc(p1, p2)
-		fmt.Println(result)
-
+	for i := 0; i < 5; i++ {
+		jprint(i)
 	}
 
 }
