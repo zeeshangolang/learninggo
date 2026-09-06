@@ -1,33 +1,38 @@
 package main
 
 import (
+	"context"
 	"fmt"
 )
 
-var opmap = map[string]func(int, int) int{
+func CountTo(ctx context.Context, max int) <-chan int {
+	ch := make(chan int)
+	go func() {
+		defer close(ch)
+		for i := 0; i < max; i++ {
+			select {
+			case <-ctx.Done():
+				return
+			case ch <- i:
+			}
+		}
+	}()
 
-	"+": add,
-	"-": subtract,
-	"*": multiply,
-	"/": divide,
+	return ch
 }
 
 func main() {
 
-	jprint := func(j int) {
-		fmt.Printf("printing j from inside %d \n", j)
-	}
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
 
-	for i := 0; i < 5; i++ {
-		jprint(i)
-	}
+	ch := CountTo(ctx, 9)
 
+	for v := range ch {
+		if v > 5 {
+			break
+		}
+
+		fmt.Print(v)
+	}
 }
-
-func add(i, j int) int { return i + j }
-
-func subtract(i, j int) int { return i - j }
-
-func multiply(i, j int) int { return i * j }
-
-func divide(i, j int) int { return i / j }
